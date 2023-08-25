@@ -1,5 +1,15 @@
 from selenium import webdriver
 from time import sleep
+import uuid
+from urllib.parse import urlparse
+
+
+def generate_name(url):
+    parsed_url = urlparse(url)
+    domain = parsed_url.hostname
+    unique_name = f"{domain}_{uuid.uuid1()}.png"
+    return unique_name
+
 
 print('----------------Ok Vamos gerar seus Screen-shots----------------')
 quantity = int(
@@ -16,12 +26,11 @@ for i in range(quantity):
         sites.append(item)
 
 browser = webdriver.Chrome()
+
 for site in sites:
     browser.get(site)
     sleep(4)
-    slice_one = site[8:]
-    slice_end = slice_one[0:-5]
-    screenshot_filename = slice_end + ".png"
+    screenshot_filename = generate_name(site)
     browser.get_screenshot_as_file(screenshot_filename)
     print(f" Salvando screenshot como: {screenshot_filename}")
 
