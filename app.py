@@ -1,37 +1,27 @@
 from selenium import webdriver
 from time import sleep
-import uuid
-from urllib.parse import urlparse
-
-
-def generate_name(url):
-    parsed_url = urlparse(url)
-    domain = parsed_url.hostname
-    unique_name = f"{domain}_{uuid.uuid1()}.png"
-    return unique_name
+import os
+from create_dir_name import dir_save
+from generate_name import generate_name
+from create_list_website import create_list
 
 
 print('----------------Ok Vamos gerar seus Screen-shots----------------')
 quantity = int(
     input('Digite a quantidade de sites que precisa do screenshot? '))
-sites = []
 
-for i in range(quantity):
-    item = input(f"digite o site {i+1}: ")
-    if item == "":
-        item = input(f"Voce não inseriu o site numero {i+1}: ")
-        sites.append(item)
-
-    else:
-        sites.append(item)
+list_sites = create_list(quantity)
 
 browser = webdriver.Chrome()
 
-for site in sites:
+
+
+for site in list_sites:
     browser.get(site)
     sleep(4)
     screenshot_filename = generate_name(site)
-    browser.get_screenshot_as_file(screenshot_filename)
+    path_save = dir_save()
+    browser.get_screenshot_as_file(os.path.join(path_save,screenshot_filename))
     print(f" Salvando screenshot como: {screenshot_filename}")
 
 browser.quit()
