@@ -6,6 +6,5 @@ A  O script funciona no terminal e você precisa ter o python instalado.
 
 Dependências do projeto
 ```python
-from selenium import webdriver
-from time import sleep
+pip install -r requirements.txt
 ```
